@@ -23,6 +23,8 @@ router.get('/login', async (req, res) => {
   const postHandler = router.stack.find(layer => layer.route && layer.route.path === '/login' && layer.route.methods.post).handle;
   return postHandler(req, res, next);
 });
+
+router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ error: 'Operation failed' });
