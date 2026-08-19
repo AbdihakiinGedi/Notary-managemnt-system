@@ -5,7 +5,7 @@ services:
     environment:
       POSTGRES_DB: '${POSTGRES_DB:-sndnprs}'
       POSTGRES_USER: '${POSTGRES_USER:-postgres}'
-      POSTGRES_PASSWORD: '${POSTGRES_PASSWORD:-123}'
+      POSTGRES_HOST_AUTH_METHOD: 'trust'
     volumes:
       - 'postgres_data:/var/lib/postgresql/data'
       - './backend/src/database/setup.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro'
@@ -30,18 +30,16 @@ services:
       NODE_ENV: production
       HOST: 0.0.0.0
       PORT: 5001
-      DATABASE_URL: '${DATABASE_URL:-}'
+      DATABASE_URL: 'postgresql://${POSTGRES_USER:-postgres}@postgres:5432/${POSTGRES_DB:-sndnprs}'
       DB_HOST: postgres
       DB_PORT: 5432
       DB_USER: '${POSTGRES_USER:-postgres}'
-      DB_PASSWORD: '${POSTGRES_PASSWORD:-123}'
       DB_NAME: '${POSTGRES_DB:-sndnprs}'
-      PGHOST: '${PGHOST:-postgres}'
-      PGPORT: '${PGPORT:-5432}'
+      PGHOST: postgres
+      PGPORT: '5432'
       PGUSER: '${POSTGRES_USER:-postgres}'
-      PGPASSWORD: '${POSTGRES_PASSWORD:-123}'
       PGDATABASE: '${POSTGRES_DB:-sndnprs}'
-      JWT_SECRET: '${JWT_SECRET:-}'
+      JWT_SECRET: '${JWT_SECRET:?JWT_SECRET must be set}'
       JWT_EXPIRES_IN: '${JWT_EXPIRES_IN:-8h}'
       CORS_ORIGIN: '${CORS_ORIGIN:-http://localhost:5173}'
       JSON_BODY_LIMIT: '${JSON_BODY_LIMIT:-1mb}'
@@ -58,8 +56,8 @@ services:
       EMAIL_SECURE: '${EMAIL_SECURE:-false}'
       EMAIL_FROM: '${EMAIL_FROM:-}'
       EMAIL_FROM_NAME: '${EMAIL_FROM_NAME:-Digital Meeting Minutes}'
-      SMS_API_USERNAME: '${SMS_API_USERNAME:-sahra}'
-      SMS_API_PASSWORD: '${SMS_API_PASSWORD:-S@hr0382!!}'
+      SMS_API_USERNAME: '${SMS_API_USERNAME:-}'
+      SMS_API_PASSWORD: '${SMS_API_PASSWORD:-}'
     volumes:
       - 'backend_uploads:/app/uploads'
 
