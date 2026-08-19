@@ -1,4 +1,23 @@
+# Node / npm
 node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Build artefacts
 dist/
+build/
+.public/
+
+# Environment files
 .env
+.env.*.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Uploads / temporary data
 uploads/
+temp/
