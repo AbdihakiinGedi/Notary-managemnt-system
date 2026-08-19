@@ -42,7 +42,7 @@ services:
       PGDATABASE: '${POSTGRES_DB:-sndnprs}'
       JWT_SECRET: '${JWT_SECRET:?JWT_SECRET must be set}'
       JWT_EXPIRES_IN: '${JWT_EXPIRES_IN:-8h}'
-      CORS_ORIGIN: '${CORS_ORIGIN:-http://localhost:5173}'
+      CORS_ORIGIN: '${CORS_ORIGIN:-https://bfeid6nd2fpqu763fq5zuulm.38.242.148.212.sslip.io}'
       JSON_BODY_LIMIT: '${JSON_BODY_LIMIT:-1mb}'
       UPLOAD_MAX_BYTES: '${UPLOAD_MAX_BYTES:-5242880}'
       SMTP_HOST: '${SMTP_HOST:-smtp.gmail.com}'
@@ -66,10 +66,10 @@ services:
     build:
       context: ./frontend
       args:
-        VITE_API_BASE_URL: '${VITE_API_BASE_URL:-http://localhost:5001}'
+        VITE_API_BASE_URL: '${VITE_API_BASE_URL:-https://csbvds8wba8inzqalzcfa0h0.38.242.148.212.sslip.io}'
     restart: unless-stopped
     environment:
-      VITE_API_BASE_URL: '${VITE_API_BASE_URL:-http://localhost:5001}'
+      VITE_API_BASE_URL: '${VITE_API_BASE_URL:-https://csbvds8wba8inzqalzcfa0h0.38.242.148.212.sslip.io}'
     ports:
       - "80"
     depends_on:
