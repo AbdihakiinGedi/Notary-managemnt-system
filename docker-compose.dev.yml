@@ -1,46 +1,82 @@
 services:
+  postgres:
+    image: 'postgres:17-alpine'
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: '${POSTGRES_DB:-sndnprs}'
+      POSTGRES_USER: '${POSTGRES_USER:-postgres}'
+      POSTGRES_HOST_AUTH_METHOD: 'trust'
+    volumes:
+      - 'postgres_data:/var/lib/postgresql/data'
+      - './backend/models/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro'
+      - './backend/models/seed.sql:/docker-entrypoint-initdb.d/02_seed.sql:ro'
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - 'pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"'
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   backend:
     build:
       context: ./backend
-    command: npm run dev
     restart: unless-stopped
-    environment:
-      NODE_ENV: development
-      HOST: 0.0.0.0
-      PORT: 5000
-      DB_HOST: host.docker.internal
-      DB_PORT: 5432
-      DB_USER: ${DB_USER:-postgres}
-      DB_PASSWORD: ${DB_PASSWORD:-123}
-      DB_NAME: ${DB_NAME:-digital_meeting_minutes}
-      JWT_SECRET: ${JWT_SECRET:-change_this_dev_secret_to_32_chars_minimum}
-      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-24h}
-      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:5173}
     ports:
-      - "${BACKEND_PUBLIC_PORT:-5001}:5000"
+      - "5001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: 5001
+      DATABASE_URL: 'postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-123}@postgres:5432/${POSTGRES_DB:-sndnprs}'
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: '${POSTGRES_USER:-postgres}'
+      DB_NAME: '${POSTGRES_DB:-sndnprs}'
+      PGHOST: postgres
+      PGPORT: '5432'
+      PGUSER: '${POSTGRES_USER:-postgres}'
+      PGPASSWORD: '${POSTGRES_PASSWORD:-123}'
+      PGDATABASE: '${POSTGRES_DB:-sndnprs}'
+      JWT_SECRET: '${JWT_SECRET:?JWT_SECRET must be set}'
+      JWT_EXPIRES_IN: '${JWT_EXPIRES_IN:-8h}'
+      CORS_ORIGIN: '${CORS_ORIGIN:-http://localhost:5173}'
+      JSON_BODY_LIMIT: '${JSON_BODY_LIMIT:-1mb}'
+      UPLOAD_MAX_BYTES: '${UPLOAD_MAX_BYTES:-5242880}'
+      SMTP_HOST: '${SMTP_HOST:-smtp.gmail.com}'
+      SMTP_PORT: '${SMTP_PORT:-587}'
+      SMTP_USER: '${SMTP_USER:-}'
+      SMTP_PASSWORD: '${SMTP_PASSWORD:-}'
+      SMTP_SECURE: '${SMTP_SECURE:-false}'
+      EMAIL_HOST: '${EMAIL_HOST:-smtp.gmail.com}'
+      EMAIL_PORT: '${EMAIL_PORT:-587}'
+      EMAIL_USER: '${EMAIL_USER:-}'
+      EMAIL_PASS: '${EMAIL_PASS:-}'
+      EMAIL_SECURE: '${EMAIL_SECURE:-false}'
+      EMAIL_FROM: '${EMAIL_FROM:-}'
+      EMAIL_FROM_NAME: '${EMAIL_FROM_NAME:-Digital Meeting Minutes}'
+      SMS_API_USERNAME: '${SMS_API_USERNAME:-}'
+      SMS_API_PASSWORD: '${SMS_API_PASSWORD:-}'
     volumes:
-      - ./backend:/app
-      - /app/node_modules
-      - backend_uploads:/app/uploads
- 
+      - 'backend_uploads:/app/uploads'
+
   frontend:
     build:
       context: ./frontend
-      target: build
       args:
-        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:5001/api/v1}
-    command: npm run dev -- --host 0.0.0.0
+        VITE_API_BASE_URL: '${VITE_API_BASE_URL:-http://localhost:5001}'
     restart: unless-stopped
     environment:
-      VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:5001/api/v1}
+      VITE_API_BASE_URL: '${VITE_API_BASE_URL:-http://localhost:5001}'
+    ports:
+      - "80"
     depends_on:
       - backend
-    ports:
-      - "${FRONTEND_PUBLIC_PORT:-5173}:5173"
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
- 
+
 volumes:
-  backend_uploads:
- 
+  postgres_data:
+    name: '${POSTGRES_VOLUME_NAME:-sndnprs_postgres_data}'
+  backend_uploads: null
