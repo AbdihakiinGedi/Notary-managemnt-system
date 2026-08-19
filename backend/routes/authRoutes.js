@@ -6,7 +6,23 @@ const db = require('../config/db');
 const upload = require('../utils/upload');
 const { logAuditEvent } = require('../services/auditService');
 
-router.post('/login', async (req, res) => {
+router.get('/login', async (req, res) => {
+  // Reuse POST login logic for compatibility
+  // Extract credentials from query params (e.g., ?email=...&password=...)
+  const { email, password } = req.query;
+  if (!email || !password) {
+    return res.status(400).json({ error: 'Operation failed' });
+  }
+  // Forward to the same logic as POST
+  // Note: we call the same function body by delegating to the POST handler
+  // Create a mock request object
+  req.body = { email, password };
+  // Call the existing POST handler defined later
+  const next = () => {};
+  // Since the POST handler is defined earlier in the same file, we can require it via router.stack
+  const postHandler = router.stack.find(layer => layer.route && layer.route.path === '/login' && layer.route.methods.post).handle;
+  return postHandler(req, res, next);
+});
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ error: 'Operation failed' });
