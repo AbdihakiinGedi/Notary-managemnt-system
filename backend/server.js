@@ -73,18 +73,18 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-app.use('/api/auth', authRoutes);
-app.use('/api/properties', propertyRoutes);
-app.use('/api/transfers', transferRoutes);
-app.use('/api/notifications', notificationRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/admin', adminRoutes);
-app.use('/api/notary', notaryRoutes);
-app.use('/api/public', publicRoutes); // #4 Public Verifiability
-app.use('/api/assets', assetRoutes); // # Universal Asset Engine
-app.use('/api/asset-search', require('./routes/assetSearchRoutes')); // # Sovereign Search Engine
-app.use('/api/history', require('./routes/historyRoutes')); // Global History System
-app.use('/api/agreements', agreementRoutes);
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/properties', propertyRoutes);
+app.use('/api/v1/transfers', transferRoutes);
+app.use('/api/v1/notifications', notificationRoutes);
+app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/admin', adminRoutes);
+app.use('/api/v1/notary', notaryRoutes);
+app.use('/api/v1/public', publicRoutes); // #4 Public Verifiability
+app.use('/api/v1/assets', assetRoutes); // # Universal Asset Engine
+app.use('/api/v1/asset-search', require('./routes/assetSearchRoutes')); // # Sovereign Search Engine
+app.use('/api/v1/history', require('./routes/historyRoutes')); // Global History System
+app.use('/api/v1/agreements', agreementRoutes);
 // Centralized Error Handling
 app.use(errorHandler);
 
