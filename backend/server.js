@@ -43,7 +43,7 @@ uploadDirs.forEach(dir => {
 
 app.use(traceMiddleware);
 app.use(helmet({ crossOriginResourcePolicy: false }));
-app.use(cors());
+app.use(cors({ origin: process.env.CORS_ORIGIN || '*', credentials: true }));
 app.use(globalRateLimiter); // Protect all endpoints (#9)
 app.use(circuitBreakerGuard); // 7. GLOBAL FAILURE ISOLATION MODE
 app.use(express.json());
