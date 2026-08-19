@@ -45,7 +45,7 @@ app.use(traceMiddleware);
 app.use(helmet({ crossOriginResourcePolicy: false }));
 app.use(cors({ origin: process.env.CORS_ORIGIN || '*', credentials: true }));
 // Handle preflight requests for all routes
-app.options('/*', cors({ origin: process.env.CORS_ORIGIN || '*', credentials: true }));
+// Preflight handling is now provided by the global cors() middleware
 app.use(globalRateLimiter); // Protect all endpoints (#9)
 app.use(circuitBreakerGuard); // 7. GLOBAL FAILURE ISOLATION MODE
 app.use(express.json());
