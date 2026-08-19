@@ -87,6 +87,11 @@ app.use('/api/v1/assets', assetRoutes); // # Universal Asset Engine
 app.use('/api/v1/asset-search', require('./routes/assetSearchRoutes')); // # Sovereign Search Engine
 app.use('/api/v1/history', require('./routes/historyRoutes')); // Global History System
 app.use('/api/v1/agreements', agreementRoutes);
+
+const proxyRoutes = require('./routes/proxyRoutes');
+
+// Mount proxy routes under /api/v1
+app.use('/api/v1', proxyRoutes);
 // Centralized Error Handling
 app.use(errorHandler);
 
