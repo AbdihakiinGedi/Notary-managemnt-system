@@ -1,28 +1,23 @@
-FROM node:20-alpine AS deps
-
-WORKDIR /app
-ENV NODE_ENV=production
-
-COPY package*.json ./
-RUN npm ci --omit=dev
-
-FROM node:20-alpine AS runtime
+# Backend Dockerfile – Coolify injects ARGs before this line
+FROM node:20-alpine
 
 WORKDIR /app
 ENV NODE_ENV=production
 ENV HOST=0.0.0.0
 ENV PORT=5001
 
-# Coolify will inject ARGs before each FROM; they are not needed in the Dockerfile itself
-
-RUN addgroup -S nodeapp && adduser -S nodeapp -G nodeapp
-
-COPY --from=deps /app/node_modules ./node_modules
+# Install production dependencies
 COPY package*.json ./
+RUN npm ci --omit=dev
+
+# Copy application source
 COPY src ./src
 
+# Create uploads directory and set ownership
 RUN mkdir -p uploads && chown -R nodeapp:nodeapp /app
 
+# Create a non‑root user and switch to it
+RUN addgroup -S nodeapp && adduser -S nodeapp -G nodeapp
 USER nodeapp
 
 EXPOSE 5001
