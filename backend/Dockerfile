@@ -11,7 +11,7 @@ FROM node:20-alpine AS runtime
 WORKDIR /app
 ENV NODE_ENV=production
 ENV HOST=0.0.0.0
-ENV PORT=5000
+ENV PORT=5001
 
 RUN addgroup -S nodeapp && adduser -S nodeapp -G nodeapp
 
@@ -23,6 +23,6 @@ RUN mkdir -p uploads && chown -R nodeapp:nodeapp /app
 
 USER nodeapp
 
-EXPOSE 5000
+EXPOSE 5001
 
 CMD ["npm", "start"]
