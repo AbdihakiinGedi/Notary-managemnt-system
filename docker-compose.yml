@@ -1,0 +1,85 @@
+services:
+  postgres:
+    image: 'postgres:17-alpine'
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: '${POSTGRES_DB:-digital_meeting_minutes}'
+      POSTGRES_USER: '${POSTGRES_USER:-postgres}'
+      POSTGRES_PASSWORD: '${POSTGRES_PASSWORD:-123}'
+    volumes:
+      - 'postgres_data:/var/lib/postgresql/data'
+      - './backend/src/database/setup.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro'
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - 'pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"'
+      interval: 10s
+      timeout: 5s
+      retries: 5
+ 
+  backend:
+    build:
+      context: ./backend
+    restart: unless-stopped
+    ports:
+      - "5000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: 5000
+      DATABASE_URL: '${DATABASE_URL:-}'
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: '${POSTGRES_USER:-postgres}'
+      DB_PASSWORD: '${POSTGRES_PASSWORD:-123}'
+      DB_NAME: '${POSTGRES_DB:-digital_meeting_minutes}'
+      PGHOST: '${PGHOST:-postgres}'
+      PGPORT: '${PGPORT:-5432}'
+      PGUSER: '${POSTGRES_USER:-postgres}'
+      PGPASSWORD: '${POSTGRES_PASSWORD:-123}'
+      PGDATABASE: '${POSTGRES_DB:-digital_meeting_minutes}'
+      JWT_SECRET: '${JWT_SECRET:-}'
+      SERVICE_BASE64_64_JWT_SECRET: '${SERVICE_BASE64_64_JWT_SECRET}'
+      SERVICE_BASE64_JWT_SECRET: '${SERVICE_BASE64_JWT_SECRET}'
+      JWT_EXPIRES_IN: '${JWT_EXPIRES_IN:-8h}'
+      CORS_ORIGIN: '${CORS_ORIGIN:-https://digitalmeeting24.com,https://www.digitalmeeting24.com,https://api.digitalmeeting24.com}'
+      JSON_BODY_LIMIT: '${JSON_BODY_LIMIT:-1mb}'
+      UPLOAD_MAX_BYTES: '${UPLOAD_MAX_BYTES:-5242880}'
+      SMTP_HOST: '${SMTP_HOST:-smtp.gmail.com}'
+      SMTP_PORT: '${SMTP_PORT:-587}'
+      SMTP_USER: '${SMTP_USER:-}'
+      SMTP_PASSWORD: '${SMTP_PASSWORD:-}'
+      SMTP_SECURE: '${SMTP_SECURE:-false}'
+      EMAIL_HOST: '${EMAIL_HOST:-smtp.gmail.com}'
+      EMAIL_PORT: '${EMAIL_PORT:-587}'
+      EMAIL_USER: '${EMAIL_USER:-}'
+      EMAIL_PASS: '${EMAIL_PASS:-}'
+      EMAIL_SECURE: '${EMAIL_SECURE:-false}'
+      EMAIL_FROM: '${EMAIL_FROM:-}'
+      EMAIL_FROM_NAME: '${EMAIL_FROM_NAME:-Digital Meeting Minutes}'
+      SMS_API_USERNAME: '${SMS_API_USERNAME:-sahra}'
+      SMS_API_PASSWORD: '${SMS_API_PASSWORD:-S@hr0382!!}'
+    volumes:
+      - 'backend_uploads:/app/uploads'
+ 
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_BASE_URL: '${VITE_API_BASE_URL:-https://api.digitalmeeting24.com/api/v1}'
+    restart: unless-stopped
+    environment:
+      VITE_API_BASE_URL: '${VITE_API_BASE_URL:-https://api.digitalmeeting24.com/api/v1}'
+    ports:
+      - "80"
+    depends_on:
+      - backend
+ 
+volumes:
+  postgres_data:
+    name: '${POSTGRES_VOLUME_NAME:-digital_meeting_minutes_postgres_data}'
+  backend_uploads: null
+ 

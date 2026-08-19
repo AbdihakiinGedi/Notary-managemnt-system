@@ -25,3 +25,4 @@
 {"action":"ASSET_TRANSFER_RECOVERED","userId":"system","propId":"f0b6746e-ae56-4e74-b347-de1ba265c611","metadata":{"transfer_id":"974232a6-9df4-43a0-8a8f-fbf6bc86149b"},"error":"invalid input syntax for type uuid: \"system\"","timestamp":"2026-05-10T06:24:36.248Z"}
 {"action":null,"userId":{"user_id":"f3000000-0000-0000-0000-000000000001","action":"PROPERTY_NOTARY_APPROVE","property_id":"8eec085e-6c83-4a4d-9e18-4a5b3cb66cc1"},"metadata":{},"error":"invalid input syntax for type uuid: \"{\"user_id\":\"f3000000-0000-0000-0000-000000000001\",\"action\":\"PROPERTY_NOTARY_APPROVE\",\"property_id\":\"8eec085e-6c83-4a4d-9e18-4a5b3cb66cc1\"}\"","timestamp":"2026-05-13T11:49:40.099Z"}
 {"action":"PROPERTY_NOTARY_APPROVE","userId":"e6e15cae-7d75-42a4-a097-8cec2b584ea9","propId":"1e0db023-a5ad-4819-8102-477fce768002","metadata":{},"error":"timeout exceeded when trying to connect","timestamp":"2026-06-03T11:44:23.449Z"}
+
