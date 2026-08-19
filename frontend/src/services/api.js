@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-  // Ensure all requests are prefixed with the versioned API path
-  baseURL: `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001'}/api/v1`,
+  // Base URL should point to the backend host; version prefix is handled by backend routes
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001',
 });
 
 api.interceptors.request.use((config) => {
