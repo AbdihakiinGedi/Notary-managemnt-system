@@ -1,0 +1,1 @@
+const db = require('./config/db'); (async () => { const p = await db.query('SELECT id, full_name, email, role_id, national_id, verification_number, verification_type FROM users'); console.log(JSON.stringify(p.rows, null, 2)); process.exit(0); })();

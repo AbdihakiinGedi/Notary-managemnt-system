@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg: #F8FAFC;
+    --card: #FFFFFF;
+    --primary: #1E3A8A; /* registryBlue */
+    --primary-light: #EFF6FF;
+    --text: #1E293B;
+    --text-soft: #475569;
+    --border: #E2E8F0;
+    --accent: #D4AF37; /* registryGold */
+  }
+
+  .dark {
+    --bg: #090D16;
+    --card: #0F172A;
+    --primary: #3B82F6;
+    --primary-light: #1E293B;
+    --text: #F8FAFC;
+    --text-soft: #94A3B8;
+    --border: #1E293B;
+    --accent: #FACC15;
+  }
+
+  body {
+    @apply bg-[var(--bg)] text-[var(--text)] font-sans antialiased transition-colors duration-200;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: 'Inter', sans-serif;
+    @apply tracking-tight;
+  }
+}
+
+@layer components {
+  /* Institutional Card */
+  .inst-card {
+    @apply bg-[var(--card)] border border-[var(--border)] rounded-xl shadow-sm p-6 transition-all duration-200 hover:shadow-md;
+  }
+
+  .inst-table-container {
+    @apply overflow-hidden border border-[var(--border)] rounded-xl bg-[var(--card)] shadow-sm;
+  }
+
+  .inst-table {
+    @apply w-full text-sm text-left border-collapse;
+  }
+
+  .inst-table thead {
+    @apply bg-slate-50 border-b border-[var(--border)] sticky top-0 z-10;
+  }
+
+  .inst-table th {
+    @apply px-5 py-4 font-semibold text-[var(--text-soft)] text-xs text-left tracking-normal bg-slate-50 border-b border-[var(--border)];
+  }
+
+  .inst-table td {
+    @apply px-5 py-4 border-b border-[var(--border)] transition-colors duration-150 text-[var(--text)] font-normal text-sm;
+  }
+
+  .inst-table tr:last-child td {
+    @apply border-b-0;
+  }
+
+  .inst-table tr:hover td {
+    @apply bg-slate-50;
+  }
+
+  /* Button System */
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded font-medium text-sm transition-all duration-150 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .btn-primary {
+    @apply bg-[var(--primary)] hover:bg-[#152C69] text-white shadow-sm border border-transparent;
+  }
+
+  .btn-secondary {
+    @apply bg-[var(--card)] border border-[var(--border)] text-[var(--text)] hover:bg-[var(--background)] shadow-sm;
+  }
+
+  .btn-ghost {
+    @apply text-[var(--text-soft)] hover:text-[var(--text)] hover:bg-slate-100;
+  }
+
+  /* Form Elements */
+  .inst-input {
+    @apply w-full bg-[var(--card)] border border-[var(--border)] rounded-lg px-4 py-3 text-sm outline-none focus:ring-4 focus:ring-[#1E3A8A]/10 focus:border-[var(--primary)] transition-all placeholder:text-slate-400 text-[var(--text)];
+  }
+
+  .inst-label {
+    @apply block text-sm font-semibold text-[var(--text)] mb-2 tracking-normal;
+  }
+
+  /* Badges */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border;
+  }
+
+  .badge-success { @apply bg-green-50 text-green-700 border-green-200; }
+  .badge-warning { @apply bg-amber-50 text-amber-700 border-amber-200; }
+  .badge-error { @apply bg-red-50 text-red-700 border-red-200; }
+  .badge-blue { @apply bg-blue-50 text-[#1E3A8A] border-blue-200; }
+  .badge-gold { @apply bg-[#FDF9F1] text-[#D4AF37] border-[#F2E5B5]; }
+}
+
+/* Animations */
+.fade-in { animation: fadeIn 0.4s ease-out; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Scrollbar */
+.custom-scrollbar::-webkit-scrollbar { width: 6px; }
+.custom-scrollbar::-webkit-scrollbar-track { @apply bg-transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { @apply bg-[var(--border)] rounded-full; }
+
+/* Clean professional label classes */
+.registry-label { @apply text-xs font-medium text-[var(--text-soft)]; }
+.registry-value { @apply text-sm font-semibold text-[var(--text)]; }
