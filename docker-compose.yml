@@ -8,7 +8,8 @@ services:
       POSTGRES_HOST_AUTH_METHOD: 'trust'
     volumes:
       - 'postgres_data:/var/lib/postgresql/data'
-      - './backend/src/database/setup.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro'
+      - './backend/models/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro'
+      - './backend/models/seed.sql:/docker-entrypoint-initdb.d/02_seed.sql:ro'
     healthcheck:
       test:
         - CMD-SHELL
