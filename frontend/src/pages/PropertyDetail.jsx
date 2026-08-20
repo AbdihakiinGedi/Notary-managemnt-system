@@ -125,7 +125,7 @@ export default function PropertyDetail() {
   if (!property) return <div className="text-center py-32">Property not found</div>;
 
   const metadata = typeof property.metadata === 'string' ? JSON.parse(property.metadata) : property.metadata;
-  const photos = metadata?.photos || (property.image_url ? [`http://localhost:5001${property.image_url}`] : []);
+  const photos = metadata?.photos || (property.image_url ? [`${api.defaults.baseURL}${property.image_url}`] : []);
 
   return (
     <div className="space-y-8 fade-in pb-16">

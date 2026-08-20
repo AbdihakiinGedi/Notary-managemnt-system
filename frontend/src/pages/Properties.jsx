@@ -96,7 +96,7 @@ export default function Properties() {
             <div className="h-48 bg-slate-50 dark:bg-slate-950 flex items-center justify-center relative border-b border-slate-200 dark:border-slate-800">
                {p.image_url ? (
                  <img 
-                   src={`http://localhost:5001${p.image_url}`} 
+                   src={`${api.defaults.baseURL}${p.image_url}`} 
                    alt={p.title} 
                    className="w-full h-full object-cover" 
                    onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'block'; }} 

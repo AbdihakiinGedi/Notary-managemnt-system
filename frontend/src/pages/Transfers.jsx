@@ -380,7 +380,7 @@ export default function Transfers() {
                        <div className="flex items-center gap-3">
                          <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden flex items-center justify-center font-bold text-slate-500">
                            {(t.status === 'completed' ? t.buyer_photo : (t.owner_photo || t.seller_photo)) ? (
-                             <img src={`http://localhost:5001${(t.status === 'completed' ? t.buyer_photo : (t.owner_photo || t.seller_photo))}`} alt="Owner" className="w-full h-full object-cover" />
+                             <img src={`${api.defaults.baseURL}${(t.status === 'completed' ? t.buyer_photo : (t.owner_photo || t.seller_photo))}`} alt="Owner" className="w-full h-full object-cover" />
                            ) : (
                              (t.status === 'completed' ? t.buyer_name : (t.owner_name || t.seller_name))?.[0]?.toUpperCase()
                            )}
@@ -393,7 +393,7 @@ export default function Transfers() {
                        <div className="flex items-center gap-3">
                          <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden flex items-center justify-center font-bold text-slate-500">
                            {t.buyer_photo ? (
-                             <img src={`http://localhost:5001${t.buyer_photo}`} alt="Buyer" className="w-full h-full object-cover" />
+                             <img src={`${api.defaults.baseURL}${t.buyer_photo}`} alt="Buyer" className="w-full h-full object-cover" />
                            ) : (
                              t.buyer_name?.[0]?.toUpperCase()
                            )}

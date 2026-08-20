@@ -128,7 +128,7 @@ export default function Header({ toggleSidebar }) {
             </div>
             <div className="w-9 h-9 bg-registryBlue rounded-lg flex items-center justify-center text-white text-base font-bold shadow-sm border border-[#152C69] overflow-hidden">
               {user?.profile_photo ? (
-                <img src={`http://localhost:5001${user.profile_photo}`} alt="Profile" className="w-full h-full object-cover" />
+                <img src={`${api.defaults.baseURL}${user.profile_photo}`} alt="Profile" className="w-full h-full object-cover" />
               ) : (
                 (user?.name || user?.full_name || 'U').charAt(0).toUpperCase()
               )}

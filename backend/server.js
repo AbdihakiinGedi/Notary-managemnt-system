@@ -54,15 +54,23 @@ app.use(morgan('combined'));
 // Serve PDF agreements from /uploads/agreements (authenticated via agreementRoutes download endpoint)
 // Root /uploads still restricted to images only
 app.use('/uploads/agreements', express.static(path.join(__dirname, 'uploads', 'agreements')));
-app.use('/uploads', (req, res, next) => {
-  // Skip if already handled by /uploads/agreements above
-  const ext = path.extname(req.path).toLowerCase();
-  const allowedExts = ['.jpg', '.jpeg', '.png', '.webp', '.svg', '.pdf'];
-  if (!allowedExts.includes(ext)) {
-    return res.status(403).json({ error: 'Access denied. Only image files can be served publicly.' });
-  }
-  next();
-}, express.static(path.join(__dirname, 'uploads')));
+app.use('/api/v1/uploads/agreements', express.static(path.join(__dirname, 'uploads', 'agreements')));
+
+const imageStaticMiddleware = [
+  (req, res, next) => {
+    // Skip if already handled by /uploads/agreements above
+    const ext = path.extname(req.path).toLowerCase();
+    const allowedExts = ['.jpg', '.jpeg', '.png', '.webp', '.svg', '.pdf'];
+    if (!allowedExts.includes(ext)) {
+      return res.status(403).json({ error: 'Access denied. Only image files can be served publicly.' });
+    }
+    next();
+  },
+  express.static(path.join(__dirname, 'uploads'))
+];
+
+app.use('/uploads', ...imageStaticMiddleware);
+app.use('/api/v1/uploads', ...imageStaticMiddleware);
 
 // Routes
 const db = require('./config/db');

@@ -34,7 +34,7 @@ export const NotificationProvider = ({ children }) => {
     fetchNotifications();
     
     // Initialize socket connection for instant notifications
-    const socket = io(import.meta.env.VITE_API_URL || 'http://localhost:5001');
+    const socket = io(import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001');
     socket.emit('join', user.id);
     
     socket.on('refresh_notifications', () => {

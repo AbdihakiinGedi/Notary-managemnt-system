@@ -108,7 +108,7 @@ export default function Profile() {
           <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
             <div className="w-24 h-24 bg-white dark:bg-slate-900 rounded-3xl shadow-md flex items-center justify-center text-registryBlue dark:text-blue-400 text-4xl font-bold border border-slate-200 dark:border-slate-800 overflow-hidden relative group">
               {(photoPreview || profile.profile_photo) ? (
-                <img src={photoPreview || `http://localhost:5001${profile.profile_photo}`} alt="Profile" className="w-full h-full object-cover" />
+                <img src={photoPreview || `${api.defaults.baseURL}${profile.profile_photo}`} alt="Profile" className="w-full h-full object-cover" />
               ) : (
                 profile.full_name ? profile.full_name[0].toUpperCase() : 'U'
               )}

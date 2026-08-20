@@ -394,7 +394,7 @@ export default function AdminDashboard() {
                               <div className="flex items-center gap-4">
                                  <div className="w-10 h-10 bg-blue-50 text-registryBlue rounded-lg flex items-center justify-center font-bold text-base border border-blue-100 shadow-sm overflow-hidden">
                                     {u.profile_photo ? (
-                                      <img src={`http://localhost:5001${u.profile_photo}`} alt="Profile" className="w-full h-full object-cover" />
+                                      <img src={`${api.defaults.baseURL}${u.profile_photo}`} alt="Profile" className="w-full h-full object-cover" />
                                     ) : (
                                       u.full_name?.charAt(0).toUpperCase()
                                     )}
