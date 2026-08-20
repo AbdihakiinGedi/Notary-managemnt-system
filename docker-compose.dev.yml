@@ -31,7 +31,7 @@ services:
       NODE_ENV: production
       HOST: 0.0.0.0
       PORT: 5001
-      DATABASE_URL: 'postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-123}@postgres:5432/${POSTGRES_DB:-sndnprs}'
+      # DATABASE_URL: 'postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-123}@postgres:5432/${POSTGRES_DB:-sndnprs}'
       DB_HOST: postgres
       DB_PORT: 5432
       DB_USER: '${POSTGRES_USER:-postgres}'
